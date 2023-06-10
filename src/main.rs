@@ -1,9 +1,14 @@
+mod server_logic;
+
+use server_logic::handle_connection;
 use std::net::TcpListener;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
 
-    for _ in listener.incoming() {
-        println!("Connection established!");
+    for stream in listener.incoming() {
+        let stream = stream.unwrap();
+
+        handle_connection(stream);
     }
 }
